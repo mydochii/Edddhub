@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Viral Terbaru</title>
+
+<style>
+
+body{
+margin:0;
+background:#0f0f0f;
+font-family:Arial;
+color:white;
+}
+
+header{
+text-align:center;
+padding:15px;
+background:#1a1a1a;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+gap:10px;
+padding:10px;
+}
+
+.card{
+background:#1a1a1a;
+border-radius:8px;
+overflow:hidden;
+cursor:pointer;
+}
+
+.card video{
+width:100%;
+height:120px;
+object-fit:cover;
+}
+
+.title{
+font-size:13px;
+padding:8px;
+}
+
+.player{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:black;
+display:none;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+}
+
+.player video{
+width:95%;
+max-width:800px;
+}
+
+.close{
+position:absolute;
+top:10px;
+right:15px;
+font-size:28px;
+cursor:pointer;
+}
+
+.pagination{
+text-align:center;
+padding:20px;
+}
+
+button{
+padding:10px 20px;
+border:none;
+border-radius:20px;
+margin:5px;
+cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h2>Video Viral Terbaru</h2>
+</header>
+
+<div class="grid" id="grid"></div>
+
+<div class="pagination">
+<button onclick="prevPage()">Prev</button>
+<button onclick="nextPage()">Next</button>
+</div>
+
+<div class="player" id="player">
+<span class="close" onclick="closePlayer()">✕</span>
+<video id="mainVideo" controls autoplay></video>
+</div>
+
+<script>
+
+const ads=[
+"https://otieu.com/4/10005133"
+];
+
+function openAd(){
+let ad=ads[Math.floor(Math.random()*ads.length)];
+window.open(ad,"_blank");
+}
+
+const videoList=[
+
+["https://cdn.videy.co/446EY4km1.mp4","N93W3 S4MB1L D1 R3K4M 4Y4N9"],
+["https://cdn.videy.co/mmxHKwWN1.mp4","N93W3 P4C4R 4L4 BDSM"],
+["https://cdn.videy.co/8mbU9jdy1.mp4","4Y4N9 S4MP3 K3S4K1T4N"],
+["https://cdn.videy.co/dOydMjXm1.mp4","K3 K0ST P4C4R M4L4H D1 SVRVH N93MVT"],
+["https://cdn.videy.co/eUtaApGv1.mp4","T4NT3 K4C4M4T4 C4NT1K 0M3W M4K3 D1LD0"],
+["https://cdn.videy.co/ZJ5Uqpyd1.mp4","N94J4K1N P4KSV N93W3"],
+["https://cdn.videy.co/k8VPr2qm1.mp4","N93W3 1STR1 T3T4N994 + G4N9B4N9"],
+["https://cdn.videy.co/UchcmSHQ1.mp4","T4NT3 T0BYVT MVLVS B4N93T"],
+["https://cdn.videy.co/xUCp5ctP1.mp4","N93W3 T4NT3 BBW"],
+["https://cdn.videy.co/oyHrnLoU1.mp4","N93W3 T3T4N994 S3B3L4H"],
+
+["https://cdn.videy.co/HIkXk6gY1.mp4","3N4K B4N93T K4L0 VD4H W0T P4RT 1"],
+["https://cdn.videy.co/NYFY6bmu1.mp4","3N4K B4N93T K4L0 VD4H W0T P4RT 2"],
+["https://cdn.videy.co/gf36ylGR1.mp4","N93W3 C3W3K T0BYVT"],
+["https://cdn.videy.co/wC2dD5aT1.mp4","N93W3 C3W3K Y4N9 L4G1 T1DVR"],
+["https://cdn.videy.co/6vORsVy51.mp4","3N4K B4N93T P0S1S1NY4"],
+["https://cdn.videy.co/cwSfMuds1.mp4","T4NT3 MINT4 DI 3W3"],
+["https://cdn.videy.co/OFWhIVXg1.mp4","SM4 NGENT0D MAK3 SVTR4"],
+["https://cdn.videy.co/2oL9TgB01.mp4","PVNY4 4Y4NG M4LV D1 K4M3R4"],
+["https://cdn.videy.co/6tdoqmks1.mp4","B1K1N V1D30 B4R3NG P4C4R"],
+["https://cdn.videy.co/CVa8Ko4K1.mp4","S1SW1 SM4 T0BROT OM3K"],
+
+["https://cdn.videy.co/LrdHMhIW1.mp4","4Y4NG UD4H G KU4T D4N BRVT4L"],
+["https://cdn.videy.co/JJDybhDk1.mp4","NG3NT0D D3P4N C3RM1N"],
+["https://cdn.videy.co/YuPGiVXW1.mp4","D1 HOT3L B4R3NG T4NT3"],
+["https://cdn.videy.co/x6AMpxtc1.mp4","NG3NT0D SAMA T3T4NGG4 B0H4Y"],
+["https://cdn.videy.co/tL6bHIlt1.mp4","H1J4B T0BROT"],
+["https://cdn.videy.co/8zEKhWQX1.mp4","NG3NT0D D4L4M M0B1L"],
+["https://cdn.videy.co/NNP1EKvl1.mp4","PVL4NG 3KSVL L4NGSVNG G4S M41N D1 M0B1L"],
+["https://cdn.videy.co/ttWNpmgk1.mp4","C0W0KNY4 CR0T DVLV4N"],
+["https://cdn.videy.co/d9S3kwL51.mp4","R3K4M4N CCTV S3K0L4H"],
+["https://cdn.videy.co/jcK7dy131.mp4","C3W3 C4NT1K P4M3R T3T3K"],
+
+["https://cdn.videy.co/9BI5AIjt1.mp4","1P4R 4D4L4H M4VT"],
+["https://cdn.videy.co/JmqyLPBr1.mp4","D3K P0L0S M4S1H M4LV M4LV"],
+["https://cdn.videy.co/cCoYLTJU1.mp4","G4 B4K4L N0L4K"],
+["https://cdn.videy.co/fWQFxeWe1.mp4","D1 BVK4 S3MV4NY4 D0NG"],
+["https://cdn.videy.co/9SwvqKkY1.mp4","4K1B4T T3RL4LV P3RC4Y4 T3M4N"],
+["https://cdn.videy.co/nhEnpkJW1.mp4","P3NG4L4M4N P3RT4M4 L4Y4N1 2 0M"],
+["https://cdn.videy.co/8mbU9jdy1.mp4","4KV K4Y4 G1N1 4M4 KRMV D04NG"]
+
+];
+
+let page=1;
+const perPage=8;
+
+function renderVideos(){
+
+const grid=document.getElementById("grid");
+grid.innerHTML="";
+
+let start=(page-1)*perPage;
+let end=start+perPage;
+
+videoList.slice(start,end).forEach(v=>{
+
+let card=document.createElement("div");
+card.className="card";
+
+card.innerHTML=`
+<video src="${v[0]}" muted preload="metadata"></video>
+<div class="title">${v[1]}</div>
+`;
+
+card.onclick=()=>{
+
+const video=document.getElementById("mainVideo");
+
+video.src=v[0];
+
+document.getElementById("player").style.display="flex";
+
+openAd();
+
+video.dataset.adShown=false;
+
+video.ontimeupdate=function(){
+
+if(video.currentTime>20 && video.dataset.adShown=="false"){
+
+video.dataset.adShown=true;
+
+openAd();
+
+}
+
+};
+
+};
+
+grid.appendChild(card);
+
+});
+
+}
+
+function nextPage(){
+
+if(page*perPage<videoList.length){
+
+page++;
+
+openAd();
+
+renderVideos();
+
+}
+
+}
+
+function prevPage(){
+
+if(page>1){
+
+page--;
+
+openAd();
+
+renderVideos();
+
+}
+
+}
+
+function closePlayer(){
+
+document.getElementById("player").style.display="none";
+
+document.getElementById("mainVideo").pause();
+
+}
+
+renderVideos();
+
+</script>
+
+</body>
+</html>
